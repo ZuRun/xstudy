@@ -17,7 +17,9 @@ public class EndRunnable {
         }, "endThreadA");
 
         thread.start();
-        Thread.sleep(1000L);
+        Thread.sleep(100L);
         thread.interrupt();
+        Thread.sleep(1000L);
+
     }
 }
