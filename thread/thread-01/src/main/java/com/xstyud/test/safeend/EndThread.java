@@ -1,4 +1,4 @@
-package safeend;
+package com.xstyud.test.safeend;
 
 /**
  * @author zurun
