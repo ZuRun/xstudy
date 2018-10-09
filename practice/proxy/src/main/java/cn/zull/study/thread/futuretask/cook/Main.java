@@ -13,7 +13,7 @@ public class Main {
 
         FutureTask<Chuju> futureTask = new FutureTask<>(() -> {
             System.out.println("---");
-            Thread.sleep(4000L);
+            Thread.sleep(3000L);
             return new Chuju();
 
         });
@@ -21,11 +21,12 @@ public class Main {
         new Thread(futureTask).start();
 
         System.out.println("开始购买食材");
-        Thread.sleep(3000L);
+        Thread.sleep(2000L);
         System.out.println("购买食材完毕");
 
         if (!futureTask.isDone()) {
             System.out.println("第三步：厨具还没到，心情好就等着（心情不好就调用cancel方法取消订单）");
+            futureTask.cancel(false);
         }
 
         Chuju chuju = futureTask.get();
