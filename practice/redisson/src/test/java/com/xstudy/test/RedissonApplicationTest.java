@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.StopWatch;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -34,42 +35,33 @@ public class RedissonApplicationTest {
 
     @Test
     public void test() throws InterruptedException {
+        int num = 10;
+        CountDownLatch countDownLatch = new CountDownLatch(num);
         ExecutorService executorService = Executors.newFixedThreadPool(10, r -> new Thread(r, "thread-pool"));
 
         Runnable runnable = () -> {
             RBucket rBucket = redisClient.getBucket("redisson");
             for (int i = 0; i < 1000; i++) {
                 rBucket.set("val:" + i);
-                System.out.println(Thread.currentThread().getName());
-
             }
+            countDownLatch.countDown();
         };
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-
+        for (int i = 0; i < num; i++) {
+            executorService.execute(runnable);
+        }
 
 //        new Thread(() -> {
-//            StopWatch stopWatch = new StopWatch();
-//            stopWatch.start();
 //            RBucket rBucket = redisClient.getBucket("redisson");
-//
 //            for (int i = 0; i < 1000; i++) {
 //                rBucket.set("val:" + i);
-//
 //                System.out.println("i=" + i + ":" + rBucket.get());
 //            }
-//            stopWatch.stop();
-//            System.out.println(stopWatch.getTotalTimeMillis());
 //        }).start();
 
-        Thread.sleep(10000L);
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        countDownLatch.await();
+        stopWatch.stop();
+        System.out.println(stopWatch.getTotalTimeMillis());
     }
 }

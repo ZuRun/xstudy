@@ -27,7 +27,8 @@ public class RedisApplicationTest {
 
     @Test
     public void test() throws InterruptedException {
-        CountDownLatch countDownLatch=new CountDownLatch(10);
+        int num = 10;
+        CountDownLatch countDownLatch = new CountDownLatch(num);
         ExecutorService executorService = Executors.newFixedThreadPool(10, r -> new Thread(r, "thread-pool"));
 
         Runnable runnable = () -> {
@@ -37,18 +38,9 @@ public class RedisApplicationTest {
             System.out.println(Thread.currentThread().getName());
             countDownLatch.countDown();
         };
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-        executorService.execute(runnable);
-
-
+        for (int i = 0; i < num; i++) {
+            executorService.execute(runnable);
+        }
 //        new Thread(() -> {
 //            StopWatch stopWatch = new StopWatch();
 //            stopWatch.start();
@@ -59,8 +51,10 @@ public class RedisApplicationTest {
 //            stopWatch.stop();
 //            System.out.println(stopWatch.getTotalTimeMillis());
 //        }).start();
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         countDownLatch.await();
-        System.out.println("countdown"+countDownLatch.getCount());
-//        Thread.sleep(10000L);
+        stopWatch.stop();
+        System.out.println(stopWatch.getTotalTimeMillis());
     }
 }
