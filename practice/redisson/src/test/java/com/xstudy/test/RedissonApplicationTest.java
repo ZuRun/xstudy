@@ -46,6 +46,8 @@ public class RedissonApplicationTest {
             }
             countDownLatch.countDown();
         };
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         for (int i = 0; i < num; i++) {
             executorService.execute(runnable);
         }
@@ -58,8 +60,7 @@ public class RedissonApplicationTest {
 //            }
 //        }).start();
 
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+
         countDownLatch.await();
         stopWatch.stop();
         System.out.println(stopWatch.getTotalTimeMillis());

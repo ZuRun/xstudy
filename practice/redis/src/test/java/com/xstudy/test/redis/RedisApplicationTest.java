@@ -38,6 +38,8 @@ public class RedisApplicationTest {
             System.out.println(Thread.currentThread().getName());
             countDownLatch.countDown();
         };
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         for (int i = 0; i < num; i++) {
             executorService.execute(runnable);
         }
@@ -51,8 +53,7 @@ public class RedisApplicationTest {
 //            stopWatch.stop();
 //            System.out.println(stopWatch.getTotalTimeMillis());
 //        }).start();
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+
         countDownLatch.await();
         stopWatch.stop();
         System.out.println(stopWatch.getTotalTimeMillis());

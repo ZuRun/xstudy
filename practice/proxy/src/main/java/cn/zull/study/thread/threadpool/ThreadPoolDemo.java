@@ -1,9 +1,5 @@
 package cn.zull.study.thread.threadpool;
 
-import cn.zull.study.basis.utils.InputUtils;
-import cn.zull.study.basis.utils.UuidUtils;
-import sun.nio.ch.ThreadPool;
-
 import java.util.concurrent.*;
 
 /**
@@ -12,19 +8,12 @@ import java.util.concurrent.*;
  */
 public class ThreadPoolDemo {
     public static void main(String[] args) {
+        newFixedThreadPool();
+    }
+
+    public static void monitorableThreadPoolExecutor() {
         MonitorHandler monitorHandler = new MonitorHandler() {
         };
-        Thread monitorThread = new Thread(() -> {
-            while (true) {
-                try {
-                    monitorHandler.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        //        ExecutorService executorService = Executors.newFixedThreadPool(5, r -> new Thread(r,"thread-pool"));
         MonitorableThreadPoolExecutor threadPoolExecutor = new MonitorableThreadPoolExecutor(5, 5,
                 5, TimeUnit.SECONDS, new LinkedBlockingQueue(), r -> new Thread(r, "线程名字"));
 
@@ -38,6 +27,19 @@ public class ThreadPoolDemo {
 
 //        threadPoolExecutor.shutdownNow();
         System.out.println("---");
+    }
+
+    public static void newFixedThreadPool() {
+        ExecutorService executorService = Executors.newFixedThreadPool(5, r -> new Thread(r, "thread-pool"));
+
+        for (int i = 0; i < 10; i++) {
+            int finalI = i;
+            executorService.execute(() -> {
+                System.out.println(finalI);
+            });
+        }
+        System.out.println("end");
+
     }
 
     static class ThreadTest implements Runnable {
