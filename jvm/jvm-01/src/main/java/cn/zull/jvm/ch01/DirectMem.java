@@ -1,4 +1,4 @@
-package cn.zull.jvm.oom;
+package cn.zull.jvm.ch01;
 
 import java.nio.ByteBuffer;
 

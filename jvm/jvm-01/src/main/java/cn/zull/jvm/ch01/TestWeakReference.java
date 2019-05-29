@@ -1,11 +1,8 @@
-package cn.zull.jvm.oom;
+package cn.zull.jvm.ch01;
 
 import lombok.Data;
 
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 弱引用测试
