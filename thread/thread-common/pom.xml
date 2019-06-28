@@ -11,5 +11,11 @@
 
     <artifactId>thread-common</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>cn.zull.xstudy</groupId>
+            <artifactId>basis</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
