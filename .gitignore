@@ -5,6 +5,9 @@ target/
 # 热部署 jRebel
 rebel.xml
 
+### java ###
+*.class
+
 ### MAC ###
 .DS_Store
 
