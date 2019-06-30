@@ -17,16 +17,20 @@ public class ThreadLocalOOM {
             new LinkedBlockingQueue<>());
 
     static class LocalVariable {
-        private byte[] a = new byte[1024*1024*5];/*5M大小的数组*/
+        /**
+         * 5M大小的数组
+         */
+        private byte[] a = new byte[1024 * 1024 * 5];
     }
 
     ThreadLocal<LocalVariable> localVariable;
-            //= new ThreadLocal<>();
+    //= new ThreadLocal<>();
 
     public static void main(String[] args) throws InterruptedException {
         /*5*5=25*/
         for (int i = 0; i < TASK_LOOP_SIZE; ++i) {
             poolExecutor.execute(new Runnable() {
+                @Override
                 public void run() {
                     ThreadLocalOOM oom = new ThreadLocalOOM();
                     oom.localVariable = new ThreadLocal<>();
