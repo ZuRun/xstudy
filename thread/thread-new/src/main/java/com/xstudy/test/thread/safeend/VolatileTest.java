@@ -1,5 +1,6 @@
 package com.xstudy.test.thread.safeend;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -11,6 +12,7 @@ public class VolatileTest {
      * 即使加了volatile,也不能保证线程安全
      */
     private static volatile long count = 0;
+    private static CountDownLatch countDownLatch = new CountDownLatch(2);
 
     private static AtomicLong atomicCount = new AtomicLong(0);
 
@@ -20,8 +22,10 @@ public class VolatileTest {
         count1.start();
         count2.start();
 
-        count1.join();
-        count2.join();
+//        count1.join();
+//        count2.join();
+        countDownLatch.await();
+
         System.out.println(count);
         System.out.println(atomicCount.get());
     }
@@ -31,5 +35,6 @@ public class VolatileTest {
             count++;
             atomicCount.addAndGet(1);
         }
+        countDownLatch.countDown();
     };
 }
