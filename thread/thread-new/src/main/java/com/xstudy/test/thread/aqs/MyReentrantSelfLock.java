@@ -79,6 +79,11 @@ public class MyReentrantSelfLock implements Lock {
             setState(nextState);
             return false;
         }
+
+        final ConditionObject newCondition() {
+            return new ConditionObject();
+        }
+
     }
 
     final static class NonFairSync extends Sync {
@@ -142,7 +147,7 @@ public class MyReentrantSelfLock implements Lock {
 
     @Override
     public Condition newCondition() {
-        return null;
+        return sync.newCondition();
     }
 
 
