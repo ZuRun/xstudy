@@ -105,17 +105,6 @@ public class EasyMap<K, V> {
             this.next = next;
         }
 
-        public K getKey() {
-            return key;
-        }
-
-        public V getVal() {
-            return val;
-        }
-
-        public void setVal(V val) {
-            this.val = val;
-        }
     }
 
     public static void main(String[] args) {
@@ -128,7 +117,7 @@ public class EasyMap<K, V> {
         System.out.println("----------------");
 
         EasyMap<String, String> map = new EasyMap<>();
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 251; i++) {
             map.put("key" + i, "vvv" + i);
 
         }
@@ -136,7 +125,7 @@ public class EasyMap<K, V> {
 
         System.out.println(map.get("key1"));
         System.out.println(map.get("key2"));
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 251; i++) {
             System.out.println("key" + i + ":" + map.get("key" + i));
         }
         System.out.println("==========");
