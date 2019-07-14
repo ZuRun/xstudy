@@ -9,22 +9,22 @@ package com.xstudy.test.thread.map;
  */
 public class EasyMap<K, V> {
     Node<K, V>[] table;
-    private int nextSize;
+    private int capacity;
+    // 元素数量
+    private int size = 0;
 
     public EasyMap() {
         this(16);
     }
 
     public EasyMap(int capacity) {
-        nextSize = capacity;
+        this.capacity = capacity;
     }
 
     public void put(K key, V val) {
-        if (table == null) {
-            resize();
-        }
+        resize();
         Node newNode = new Node(key, val, hash(key), null);
-        int nodeIndex = getNodeIndex(key);
+        int nodeIndex = indexFor(key);
         if (table[nodeIndex] == null) {
             table[nodeIndex] = newNode;
         } else {
@@ -33,6 +33,7 @@ public class EasyMap<K, V> {
             table[nodeIndex] = newNode;
             newNode.next = oldNode;
         }
+        size++;
     }
 
     /**
@@ -42,7 +43,7 @@ public class EasyMap<K, V> {
      * @return
      */
     public V get(K key) {
-        int index = getNodeIndex(key);
+        int index = indexFor(key);
         if (table[index] == null) {
             return null;
         }
@@ -67,8 +68,12 @@ public class EasyMap<K, V> {
      * @param key
      * @return
      */
-    private int getNodeIndex(K key) {
-        int index = hash(key) & (table.length - 1);
+    private int indexFor(K key) {
+        return indexFor(key, table.length);
+    }
+
+    private int indexFor(K key, int capacity) {
+        int index = hash(key) & (capacity - 1);
         return index;
     }
 
@@ -87,18 +92,56 @@ public class EasyMap<K, V> {
      */
     final void resize() {
         if (table == null) {
-            table = new Node[nextSize];
+            table = new Node[capacity];
+            return;
+        }
+        if (size >= capacity) {
+            int newCap = capacity << 1;
+            System.out.println("需要扩容,当前：" + capacity + ",table长度：" + size + "，扩容后长度：" + newCap);
+
+            Node[] newTable = new Node[newCap];
+            transfer(newTable);
+            table = newTable;
+            capacity = newCap;
         }
 
+    }
+
+    /**
+     * 扩容时，重新计算元素位置
+     *
+     * @param newTable
+     */
+    final void transfer(Node<K, V>[] newTable) {
+        Node<K, V>[] old = table;
+        int newCapacity = newTable.length;
+        // 遍历旧数组
+        for (int i = 0; i < old.length; i++) {
+            Node<K, V> kvNode = old[i];
+            if (kvNode != null) {
+                // 释放老数组的引用
+                old[i] = null;
+                // 遍历链表
+                while (kvNode != null) {
+                    Node<K, V> next = kvNode.next;
+                    int index = indexFor(kvNode.key, newCapacity);
+                    kvNode.next = newTable[index];
+                    newTable[index] = kvNode;
+                    // 进入下一轮遍历
+                    kvNode = next;
+                }
+
+            }
+        }
     }
 
     class Node<K, V> {
         private final K key;
         private V val;
         int hash;
-        Node next;
+        Node<K, V> next;
 
-        Node(K key, V val, int hash, Node next) {
+        Node(K key, V val, int hash, Node<K, V> next) {
             this.key = key;
             this.val = val;
             this.hash = hash;
