@@ -33,6 +33,9 @@ public class AtomicTest {
 
     private AtomicInteger atomic = new AtomicInteger(0);
 
+    /**
+     * 核心代码,使用循环CAS,不成功则一直重试.
+     */
     private void increment() {
         while (true) {
             int oldValue = atomic.get();
