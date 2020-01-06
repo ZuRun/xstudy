@@ -15,6 +15,7 @@
         <module>common</module>
         <module>example-v2</module>
         <module>interview-question</module>
+        <module>spring</module>
     </modules>
 
     <properties>
