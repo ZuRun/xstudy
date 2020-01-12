@@ -1,12 +1,11 @@
 package cn.zull.xstudy.spring.test.xml;
 
 import cn.zull.xstudy.spring.test.annotation.PersonConfig;
+import cn.zull.xstudy.spring.test.entity.Person;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * @author zurun

@@ -1,4 +1,4 @@
-package cn.zull.xstudy.spring.test.xml;
+package cn.zull.xstudy.spring.test.entity;
 
 import lombok.Data;
 

@@ -1,10 +1,9 @@
 package cn.zull.xstudy.spring.test.annotation;
 
-import cn.zull.xstudy.spring.test.xml.Person;
+import cn.zull.xstudy.spring.test.entity.Person;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 
 /**
  * @author zurun
@@ -12,8 +11,8 @@ import org.springframework.context.annotation.FilterType;
  */
 @Configuration
 @ComponentScan(includeFilters = {
-        @ComponentScan.Filter(type = FilterType.ANNOTATION,),
-        @ComponentScan.Filter
+//        @ComponentScan.Filter(type = FilterType.ANNOTATION,),
+//        @ComponentScan.Filter
 })
 public class PersonConfig {
 
